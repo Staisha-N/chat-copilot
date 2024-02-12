@@ -23,8 +23,6 @@ import { RootState } from '../../redux/app/store';
 import { FeatureKeys } from '../../redux/features/app/AppState';
 import { Alerts } from '../shared/Alerts';
 import { ChatRoom } from './ChatRoom';
-import { ParticipantsList } from './controls/ParticipantsList';
-import { ShareBotMenu } from './controls/ShareBotMenu';
 import { EditChatName } from './shared/EditChatName';
 import { DocumentsTab } from './tabs/DocumentsTab';
 import { PersonaTab } from './tabs/PersonaTab';
@@ -91,7 +89,6 @@ export const ChatWindow: React.FC = () => {
     const classes = useClasses();
     const { features } = useAppSelector((state: RootState) => state.app);
     const { conversations, selectedId } = useAppSelector((state: RootState) => state.conversations);
-    const showShareBotMenu = features[FeatureKeys.BotAsDocs].enabled || features[FeatureKeys.MultiUserChat].enabled;
     const chatName = conversations[selectedId].title;
 
     const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -172,18 +169,6 @@ export const ChatWindow: React.FC = () => {
                             </>
                         )}
                     </TabList>
-                </div>
-                <div className={classes.controls}>
-                    {!features[FeatureKeys.SimplifiedExperience].enabled && (
-                        <div data-testid="chatParticipantsView">
-                            <ParticipantsList participants={conversations[selectedId].users} />
-                        </div>
-                    )}
-                    {showShareBotMenu && (
-                        <div>
-                            <ShareBotMenu chatId={selectedId} chatTitle={chatName} />
-                        </div>
-                    )}
                 </div>
             </div>
             {selectedTab === 'chat' && <ChatRoom />}
