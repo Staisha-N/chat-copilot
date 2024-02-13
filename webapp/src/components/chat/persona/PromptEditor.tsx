@@ -14,7 +14,6 @@ import React from 'react';
 import { AlertType } from '../../../libs/models/AlertType';
 import { useAppDispatch, useAppSelector } from '../../../redux/app/hooks';
 import { addAlert } from '../../../redux/features/app/appSlice';
-import { Info16 } from '../../shared/BundledIcons';
 
 const useClasses = makeStyles({
     root: {
@@ -90,9 +89,7 @@ export const PromptEditor: React.FC<PromptEditorProps> = ({
             <div className={classes.horizontal}>
                 <h3>{title}</h3>
                 <Popover withArrow>
-                    <PopoverTrigger disableButtonEnhancement>
-                        <Button icon={<Info16 />} appearance="transparent" />
-                    </PopoverTrigger>
+                    <PopoverTrigger disableButtonEnhancement></PopoverTrigger>
                     <PopoverSurface className={classes.dialog}>{info}</PopoverSurface>
                 </Popover>
             </div>

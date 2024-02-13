@@ -21,9 +21,7 @@ import React, { useState } from 'react';
 import { useAppSelector } from '../../redux/app/hooks';
 import { RootState } from '../../redux/app/store';
 import { FeatureKeys } from '../../redux/features/app/AppState';
-import { Alerts } from '../shared/Alerts';
 import { ChatRoom } from './ChatRoom';
-import { EditChatName } from './shared/EditChatName';
 import { DocumentsTab } from './tabs/DocumentsTab';
 import { PersonaTab } from './tabs/PersonaTab';
 
@@ -129,14 +127,6 @@ export const ChatWindow: React.FC = () => {
                                 </PopoverTrigger>
                                 <PopoverSurface className={classes.popover}>
                                     <h3 className={classes.popoverHeader}>Bot name</h3>
-                                    <EditChatName
-                                        name={chatName}
-                                        chatId={selectedId}
-                                        exitEdits={() => {
-                                            setIsEditing(false);
-                                        }}
-                                        textButtons
-                                    />
                                 </PopoverSurface>
                             </Popover>
                         </>
@@ -174,11 +164,6 @@ export const ChatWindow: React.FC = () => {
             {selectedTab === 'chat' && <ChatRoom />}
             {selectedTab === 'documents' && <DocumentsTab />}
             {selectedTab === 'persona' && <PersonaTab />}
-            {selectedTab !== 'chat' && (
-                <div className={classes.alerts}>
-                    <Alerts />
-                </div>
-            )}
         </div>
     );
 };

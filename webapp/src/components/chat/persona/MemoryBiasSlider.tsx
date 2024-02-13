@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft. All rights reserved.
 
 import {
-    Button,
     Label,
     Popover,
     PopoverSurface,
@@ -16,7 +15,6 @@ import { useChat } from '../../../libs/hooks/useChat';
 import { useAppDispatch, useAppSelector } from '../../../redux/app/hooks';
 import { RootState } from '../../../redux/app/store';
 import { editConversationMemoryBalance } from '../../../redux/features/conversations/conversationsSlice';
-import { Info16 } from '../../shared/BundledIcons';
 
 const useClasses = makeStyles({
     root: {
@@ -73,9 +71,7 @@ export const MemoryBiasSlider: React.FC = () => {
             <div className={classes.horizontal}>
                 <h3>Memory Bias</h3>
                 <Popover withArrow>
-                    <PopoverTrigger disableButtonEnhancement>
-                        <Button icon={<Info16 />} appearance="transparent" />
-                    </PopoverTrigger>
+                    <PopoverTrigger disableButtonEnhancement></PopoverTrigger>
                     <PopoverSurface>
                         This is a slider that allows the user to bias the chat bot towards short or long term memory.
                     </PopoverSurface>

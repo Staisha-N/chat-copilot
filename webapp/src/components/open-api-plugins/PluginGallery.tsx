@@ -23,7 +23,6 @@ import { useAppSelector } from '../../redux/app/hooks';
 import { RootState } from '../../redux/app/store';
 import { addAlert } from '../../redux/features/app/appSlice';
 import { Plugin, PluginAuthRequirements } from '../../redux/features/plugins/PluginsState';
-import { AppsAddIn24, Dismiss24 } from '../shared/BundledIcons';
 import { AddPluginCard } from './cards/AddPluginCard';
 import { PluginCard } from './cards/PluginCard';
 
@@ -117,7 +116,6 @@ export const PluginGallery: React.FC = () => {
                     data-testid="pluginButton"
                     style={{ color: 'white' }}
                     appearance="transparent"
-                    icon={<AppsAddIn24 color="white" />}
                     title="Plugins Gallery"
                     aria-label="Plugins Gallery"
                 >
@@ -133,7 +131,6 @@ export const PluginGallery: React.FC = () => {
                                     data-testid="closeEnableCCPluginsPopUp"
                                     appearance="subtle"
                                     aria-label="close"
-                                    icon={<Dismiss24 />}
                                 />
                             </DialogTrigger>
                         }

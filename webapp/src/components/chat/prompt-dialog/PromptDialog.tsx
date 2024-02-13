@@ -29,7 +29,6 @@ import { ChatMessageType, IChatMessage } from '../../../libs/models/ChatMessage'
 import { PlanType } from '../../../libs/models/Plan';
 import { PlanExecutionMetadata } from '../../../libs/models/PlanExecutionMetadata';
 import { useDialogClasses } from '../../../styles';
-import { TokenUsageGraph } from '../../token-usage/TokenUsageGraph';
 import { formatParagraphTextContent } from '../../utils/TextUtils';
 import { StepwiseThoughtProcessView } from './stepwise-planner/StepwiseThoughtProcessView';
 
@@ -131,7 +130,6 @@ export const PromptDialog: React.FC<IPromptDialogProps> = ({ message }) => {
                 >
                     <DialogTitle>Prompt</DialogTitle>
                     <DialogContent className={dialogClasses.content}>
-                        <TokenUsageGraph promptView tokenUsage={message.tokenUsage ?? {}} />
                         {message.prompt && typeof prompt !== 'string' && (
                             <TabList selectedValue={selectedTab} onTabSelect={onTabSelect}>
                                 <Tab data-testid="formatted" id="formatted" value="formatted">

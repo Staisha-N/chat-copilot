@@ -44,7 +44,6 @@ import { useChat, useFile } from '../../../libs/hooks';
 import { ChatMemorySource } from '../../../libs/models/ChatMemorySource';
 import { useAppSelector } from '../../../redux/app/hooks';
 import { RootState } from '../../../redux/app/store';
-import { Add20 } from '../../shared/BundledIcons';
 import { timestampToDateString } from '../../utils/TextUtils';
 import { TabView } from './TabView';
 
@@ -176,7 +175,6 @@ export const DocumentsTab: React.FC = () => {
                             <MenuItem
                                 data-testid="addNewLocalDoc"
                                 onClick={() => localDocumentFileRef.current?.click()}
-                                icon={<Add20 />}
                                 disabled={
                                     conversations[selectedId].disabled ||
                                     (importingDocuments && importingDocuments.length > 0)
