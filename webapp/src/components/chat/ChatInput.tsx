@@ -1,14 +1,11 @@
 // Copyright (c) Microsoft. All rights reserved.
 
-import { useMsal } from '@azure/msal-react';
 import { Button, Spinner, Textarea, makeStyles, mergeClasses, shorthands, tokens } from '@fluentui/react-components';
-import { AttachRegular, MicRegular, SendRegular } from '@fluentui/react-icons';
+import { AttachRegular, SendRegular } from '@fluentui/react-icons';
 import debug from 'debug';
-import * as speechSdk from 'microsoft-cognitiveservices-speech-sdk';
 import React, { useRef, useState } from 'react';
 import { Constants } from '../../Constants';
 import { COPY } from '../../assets/strings';
-import { AuthHelper } from '../../libs/auth/AuthHelper';
 import { useFile } from '../../libs/hooks';
 import { GetResponseOptions } from '../../libs/hooks/useChat';
 import { AlertType } from '../../libs/models/AlertType';
@@ -17,8 +14,6 @@ import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
 import { RootState } from '../../redux/app/store';
 import { addAlert } from '../../redux/features/app/appSlice';
 import { editConversationInput, updateBotResponseStatus } from '../../redux/features/conversations/conversationsSlice';
-import { getErrorDetails } from '../utils/TextUtils';
-import { SpeechService } from './../../libs/services/SpeechService';
 import { updateUserIsTyping } from './../../redux/features/conversations/conversationsSlice';
 import { ChatStatus } from './ChatStatus';
 
@@ -79,15 +74,12 @@ interface ChatInputProps {
 
 export const ChatInput: React.FC<ChatInputProps> = ({ isDraggingOver, onDragLeave, onSubmit }) => {
     const classes = useClasses();
-    const { instance, inProgress } = useMsal();
     const dispatch = useAppDispatch();
     const { conversations, selectedId } = useAppSelector((state: RootState) => state.conversations);
     const { activeUserInfo } = useAppSelector((state: RootState) => state.app);
     const fileHandler = useFile();
 
     const [value, setValue] = useState('');
-    const [recognizer, setRecognizer] = useState<speechSdk.SpeechRecognizer>();
-    const [isListening, setIsListening] = useState(false);
     const { importingDocuments } = conversations[selectedId];
 
     const documentFileRef = useRef<HTMLInputElement | null>(null);
@@ -98,42 +90,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({ isDraggingOver, onDragLeav
     }, [selectedId]);
 
     React.useEffect(() => {
-        async function initSpeechRecognizer() {
-            const speechService = new SpeechService();
-            const response = await speechService.getSpeechTokenAsync(
-                await AuthHelper.getSKaaSAccessToken(instance, inProgress),
-            );
-            if (response.isSuccess) {
-                const recognizer = speechService.getSpeechRecognizerAsyncWithValidKey(response);
-                setRecognizer(recognizer);
-            }
-        }
-
-        initSpeechRecognizer().catch((e) => {
-            const errorDetails = getErrorDetails(e);
-            const errorMessage = `Unable to initialize speech recognizer. Details: ${errorDetails}`;
-            dispatch(addAlert({ message: errorMessage, type: AlertType.Error }));
-        });
-    }, [dispatch, instance, inProgress]);
-
-    React.useEffect(() => {
         const chatState = conversations[selectedId];
         setValue(chatState.disabled ? COPY.CHAT_DELETED_MESSAGE() : chatState.input);
     }, [conversations, selectedId]);
-
-    const handleSpeech = () => {
-        setIsListening(true);
-        if (recognizer) {
-            recognizer.recognizeOnceAsync((result) => {
-                if (result.reason === speechSdk.ResultReason.RecognizedSpeech) {
-                    if (result.text && result.text.length > 0) {
-                        handleSubmit(result.text);
-                    }
-                }
-                setIsListening(false);
-            });
-        }
-    };
 
     const handleSubmit = (value: string, messageType: ChatMessageType = ChatMessageType.Message) => {
         if (value.trim() === '') {
@@ -244,14 +203,6 @@ export const ChatInput: React.FC<ChatInputProps> = ({ isDraggingOver, onDragLeav
                     {importingDocuments && importingDocuments.length > 0 && <Spinner size="tiny" />}
                 </div>
                 <div className={classes.essentials}>
-                    {recognizer && (
-                        <Button
-                            appearance="transparent"
-                            disabled={conversations[selectedId].disabled || isListening}
-                            icon={<MicRegular />}
-                            onClick={handleSpeech}
-                        />
-                    )}
                     <Button
                         title="Submit"
                         aria-label="Submit message"
