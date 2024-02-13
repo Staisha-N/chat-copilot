@@ -11,7 +11,6 @@ import { DefaultChatUser, FeatureKeys } from '../../../redux/features/app/AppSta
 import { Breakpoints, customTokens } from '../../../styles';
 import { timestampToDateString } from '../../utils/TextUtils';
 import { PlanViewer } from '../plan-viewer/PlanViewer';
-import { PromptDialog } from '../prompt-dialog/PromptDialog';
 import { TypingIndicator } from '../typing-indicator/TypingIndicator';
 import * as utils from './../../utils/TextUtils';
 import { ChatHistoryDocumentContent } from './ChatHistoryDocumentContent';
@@ -135,7 +134,6 @@ export const ChatHistoryItem: React.FC<ChatHistoryItemProps> = ({ message, messa
                 <div className={classes.header}>
                     {!isMe && <Text weight="semibold">{fullName}</Text>}
                     <Text className={classes.time}>{timestampToDateString(message.timestamp, true)}</Text>
-                    {isBot && <PromptDialog message={message} />}
                     {isBot && message.prompt && (
                         <Tooltip content={messagedCopied ? 'Copied' : 'Copy text'} relationship="label">
                             <Button
