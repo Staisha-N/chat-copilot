@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft. All rights reserved.
 
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated, useMsal } from '@azure/msal-react';
-import { FluentProvider, Subtitle1, makeStyles, shorthands, tokens } from '@fluentui/react-components';
+import { FluentProvider, makeStyles, shorthands, tokens } from '@fluentui/react-components';
 
 import * as React from 'react';
 import { useEffect } from 'react';
-import { PluginGallery } from './components/open-api-plugins/PluginGallery';
 import { BackendProbe, ChatView, Error, Loading, Login } from './components/views';
 import { AuthHelper } from './libs/auth/AuthHelper';
 import { useChat, useFile } from './libs/hooks';
@@ -23,22 +22,6 @@ export const useClasses = makeStyles({
         height: '100vh',
         width: '100%',
         ...shorthands.overflow('hidden'),
-    },
-    header: {
-        alignItems: 'center',
-        backgroundColor: tokens.colorBrandForeground2,
-        color: tokens.colorNeutralForegroundOnBrand,
-        display: 'flex',
-        '& h1': {
-            paddingLeft: tokens.spacingHorizontalXL,
-            display: 'flex',
-        },
-        height: '48px',
-        justifyContent: 'space-between',
-        width: '100%',
-    },
-    persona: {
-        marginRight: tokens.spacingHorizontalXXL,
     },
     cornerItems: {
         display: 'flex',
@@ -140,9 +123,6 @@ const App = () => {
                 <>
                     <UnauthenticatedTemplate>
                         <div className={classes.container}>
-                            <div className={classes.header}>
-                                <Subtitle1 as="h1">Chat Copilot</Subtitle1>
-                            </div>
                             {appState === AppState.SigningOut && <Loading text="Signing you out..." />}
                             {appState !== AppState.SigningOut && <Login />}
                         </div>
@@ -176,16 +156,6 @@ const Chat = ({
     }, [setAppState]);
     return (
         <div className={classes.container}>
-            <div className={classes.header}>
-                <Subtitle1 as="h1">Chat Copilot</Subtitle1>
-                {appState > AppState.SettingUserInfo && (
-                    <div className={classes.cornerItems}>
-                        <div className={classes.cornerItems}>
-                            <PluginGallery />
-                        </div>
-                    </div>
-                )}
-            </div>
             {appState === AppState.ProbeForBackend && <BackendProbe onBackendFound={onBackendFound} />}
             {appState === AppState.SettingUserInfo && (
                 <Loading text={'Hang tight while we fetch your information...'} />

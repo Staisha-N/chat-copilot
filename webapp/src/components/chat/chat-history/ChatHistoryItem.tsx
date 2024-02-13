@@ -1,15 +1,6 @@
 // Copyright (c) Microsoft. All rights reserved.
 
-import {
-    AvatarProps,
-    Button,
-    Persona,
-    Text,
-    Tooltip,
-    makeStyles,
-    mergeClasses,
-    shorthands,
-} from '@fluentui/react-components';
+import { Button, Text, Tooltip, makeStyles, mergeClasses, shorthands } from '@fluentui/react-components';
 import { Clipboard20Regular, ClipboardTask20Regular, ThumbDislikeFilled, ThumbLikeFilled } from '@fluentui/react-icons';
 import React, { useState } from 'react';
 import { useChat } from '../../../libs/hooks/useChat';
@@ -45,9 +36,6 @@ const useClasses = makeStyles({
     },
     alignEnd: {
         alignSelf: 'flex-end',
-    },
-    persona: {
-        paddingTop: customTokens.spacingVerticalS,
     },
     item: {
         backgroundColor: customTokens.colorNeutralBackground1,
@@ -125,12 +113,6 @@ export const ChatHistoryItem: React.FC<ChatHistoryItemProps> = ({ message, messa
         });
     };
 
-    const avatar: AvatarProps = isBot
-        ? { image: { src: conversations[selectedId].botProfilePicture } }
-        : isDefaultUser
-          ? { idForColor: selectedId, color: 'colorful' }
-          : { name: fullName, color: 'colorful' };
-
     let content: JSX.Element;
     if (isBot && message.type === ChatMessageType.Plan) {
         content = <PlanViewer message={message} messageIndex={messageIndex} />;
@@ -149,17 +131,6 @@ export const ChatHistoryItem: React.FC<ChatHistoryItemProps> = ({ message, messa
             data-username={fullName}
             data-content={utils.formatChatTextContent(message.content)}
         >
-            {
-                <Persona
-                    className={classes.persona}
-                    avatar={avatar}
-                    presence={
-                        !features[FeatureKeys.SimplifiedExperience].enabled && !isMe
-                            ? { status: 'available' }
-                            : undefined
-                    }
-                />
-            }
             <div className={isMe ? mergeClasses(classes.item, classes.me) : classes.item}>
                 <div className={classes.header}>
                     {!isMe && <Text weight="semibold">{fullName}</Text>}

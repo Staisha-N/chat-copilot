@@ -11,7 +11,6 @@ import {
     DialogTitle,
     DialogTrigger,
     Input,
-    Persona,
     Text,
     makeStyles,
 } from '@fluentui/react-components';
@@ -64,7 +63,6 @@ interface PluginConnectorProps {
 
 export const PluginConnector: React.FC<PluginConnectorProps> = ({
     name,
-    icon,
     publisher,
     authRequirements,
     apiProperties,
@@ -167,19 +165,7 @@ export const PluginConnector: React.FC<PluginConnectorProps> = ({
                                     <Button appearance="subtle" aria-label="close" icon={<Dismiss20Regular />} />
                                 </DialogTrigger>
                             }
-                        >
-                            <Persona
-                                size="huge"
-                                name={name}
-                                avatar={{
-                                    image: {
-                                        src: icon,
-                                    },
-                                    initials: '', // Set to empty string so no initials are rendered behind image
-                                }}
-                                secondaryText={`${publisher} | Semantic Kernel`}
-                            />
-                        </DialogTitle>
+                        ></DialogTitle>
                         <DialogContent className={classes.content}>
                             {errorMessage && <Body1 className={classes.error}>{errorMessage}</Body1>}
                             You are about to enable {name}.{' '}

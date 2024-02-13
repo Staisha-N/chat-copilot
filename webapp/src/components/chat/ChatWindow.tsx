@@ -4,7 +4,6 @@ import {
     Button,
     Label,
     makeStyles,
-    Persona,
     Popover,
     PopoverSurface,
     PopoverTrigger,
@@ -16,14 +15,13 @@ import {
     tokens,
     Tooltip,
 } from '@fluentui/react-components';
-import { Edit24Filled, EditRegular, Person16Regular } from '@fluentui/react-icons';
+import { Edit24Filled, EditRegular } from '@fluentui/react-icons';
 import React, { useState } from 'react';
 import { useAppSelector } from '../../redux/app/hooks';
 import { RootState } from '../../redux/app/store';
 import { FeatureKeys } from '../../redux/features/app/AppState';
 import { ChatRoom } from './ChatRoom';
 import { DocumentsTab } from './tabs/DocumentsTab';
-import { PersonaTab } from './tabs/PersonaTab';
 
 const useClasses = makeStyles({
     root: {
@@ -101,12 +99,6 @@ export const ChatWindow: React.FC = () => {
                 <div className={classes.title}>
                     {!features[FeatureKeys.SimplifiedExperience].enabled && (
                         <>
-                            <Persona
-                                key={'Semantic Kernel Bot'}
-                                size="medium"
-                                avatar={{ image: { src: conversations[selectedId].botProfilePicture } }}
-                                presence={{ status: 'available' }}
-                            />
                             <Label size="large" weight="semibold">
                                 {chatName}
                             </Label>
@@ -144,26 +136,11 @@ export const ChatWindow: React.FC = () => {
                         >
                             Documents
                         </Tab>
-                        {features[FeatureKeys.PluginsPlannersAndPersonas].enabled && (
-                            <>
-                                <Tab
-                                    data-testid="personaTab"
-                                    id="persona"
-                                    value="persona"
-                                    icon={<Person16Regular />}
-                                    aria-label="Persona Tab"
-                                    title="Persona Tab"
-                                >
-                                    Persona
-                                </Tab>
-                            </>
-                        )}
                     </TabList>
                 </div>
             </div>
             {selectedTab === 'chat' && <ChatRoom />}
             {selectedTab === 'documents' && <DocumentsTab />}
-            {selectedTab === 'persona' && <PersonaTab />}
         </div>
     );
 };

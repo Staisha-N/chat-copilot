@@ -8,14 +8,12 @@ import {
     DialogSurface,
     DialogTitle,
     DialogTrigger,
-    Persona,
     Text,
     makeStyles,
     tokens,
 } from '@fluentui/react-components';
 import { CheckmarkCircle48Regular, Dismiss24Regular } from '@fluentui/react-icons';
 import React, { ReactElement, useCallback, useState } from 'react';
-import AddPluginIcon from '../../../assets/plugin-icons/add-plugin.png';
 import { usePlugins } from '../../../libs/hooks';
 import { PluginManifest } from '../../../libs/models/PluginManifest';
 import { EnterManifestStep } from './steps/EnterManifestStep';
@@ -101,19 +99,6 @@ export const PluginWizard: React.FC = () => {
     const wizardSteps: IWizardStep[] = [
         {
             id: CreatePluginSteps.EnterManifest,
-            header: (
-                <Persona
-                    size="huge"
-                    name="Custom plugin"
-                    avatar={{
-                        image: {
-                            src: AddPluginIcon,
-                        },
-                        initials: '', // Set to empty string so no initials are rendered behind image
-                    }}
-                    secondaryText="Connect an OpenAI Plugin to expose Chat Copilot to third-party applications."
-                />
-            ),
             body: (
                 <EnterManifestStep
                     manifestDomain={manifestDomain}
